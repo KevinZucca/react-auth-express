@@ -12,19 +12,13 @@ const sendRequest = async (url, method = "GET", data = null) => {
     options.body = JSON.stringify(data);
   }
 
-  try {
-    const response = await fetch(`${baseURL}${url}`, options);
-    const responseData = await response.json();
-
-    if (!response.ok) {
-      throw new Error(responseData.message || "Si è verificato un errore");
-    }
-
-    return responseData;
-  } catch (error) {
-    console.error("Errore di rete:", error);
-    throw new Error("Si è verificato un errore di rete");
+  const response = await fetch(`${baseURL}${url}`, options);
+  const responseData = await response.json();
+  if (!response.ok) {
+    throw new Error(responseData.error || "Si è verificato un errore");
   }
+
+  return responseData;
 };
 
 export { sendRequest };
